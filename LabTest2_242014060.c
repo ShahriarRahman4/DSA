@@ -1,5 +1,8 @@
+//Name:Md.Shahriar rahman
+//ID:242014060
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 struct stack {
     int size;
@@ -7,12 +10,25 @@ struct stack {
     int *arr;
 };
 
-int isFull(struct stack *ptr) {
-    return ptr->top == ptr->size - 1;
+int isFull(struct stack *ptr)
+{
+    if(ptr->top == ptr->size - 1)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
-int isEmpty(struct stack *ptr) {
-    return ptr->top == -1;
+int isEmpty(struct stack* ptr){
+    if(ptr->top == -1){
+        return 1;
+    }
+    else{
+        return 0;
+    }
 }
 
 int pop(struct stack *ptr) {
@@ -51,39 +67,36 @@ int main() {
     sp->size = 100;
     sp->top = -1;
     sp->arr = (int *)malloc(sp->size * sizeof(int));
-    
+
+    int n;
     char input[100];
-    printf("Stack Operations Available: p<value> (push), o (pop), d (display), e (exit)\n");
-    
-    while (1) {
-        printf("> ");
+
+    printf("Enter number of operations:\n");
+    scanf("%d", &n);
+    getchar();
+
+    while (n--) {
         fgets(input, sizeof(input), stdin);
-        
-        switch (input[0]) {
-            case 'p': // push
-                {
-                    int val;
-                    if (sscanf(input + 1, "%d", &val) == 1) {
-                        push(sp, val);
-                    } else {
-                        printf("Invalid push value\n");
-                    }
-                }
-                break;
-            case 'o': // pop
+
+        char command[10];
+        int value;
+
+        if (sscanf(input, "%s %d", command, &value) == 2 && strcmp(command, "push") == 0) {
+            push(sp, value);
+        } else if (sscanf(input, "%s", command) == 1) {
+            if (strcmp(command, "pop") == 0) {
                 pop(sp);
-                break;
-            case 'd': // display
+            } else if (strcmp(command, "display") == 0) {
                 printStack(sp);
-                break;
-            case 'e': // exit
-                free(sp->arr);
-                free(sp);
-                return 0;
-            default:
+            } else {
                 printf("Invalid operation\n");
+            }
+        } else {
+            printf("Invalid input format\n");
         }
     }
-    
+
+    free(sp->arr);
+    free(sp);
     return 0;
 }

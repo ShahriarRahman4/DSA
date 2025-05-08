@@ -9,22 +9,9 @@ struct queue
     int *arr;
 };
 
-int isEmpty(struct queue *q)
+int isEmpty(struct queue *ptr)
 {
-    if(q->r==q->f)
-    {
-        return 1;
-    }
-
-    else
-    {
-        return 0;
-    }
-}
-
-int isFull(struct queue *q)
-{
-    if(q->r==q->size-1)
+    if(ptr->f==ptr->r)
     {
         return 1;
     }
@@ -34,69 +21,79 @@ int isFull(struct queue *q)
     }
 }
 
-void enqueue(struct queue *q,int val)
+int isFull(struct queue *ptr)
 {
-    if(isFull(q))
+    if(ptr->r==ptr->size-1)
     {
-        printf("This queue is full\n");
+        return 1;
     }
-
     else
     {
-        q->r++;
-        q->arr[q->r]=val;
-       printf("Enqueued element : %d\n",val);
+        return 0;
     }
 }
 
 
-int dequeue(struct queue *q)
+void enqueue(struct queue *ptr,int value)
 {
-    int a = -1;
-
-    if(isEmpty(q))
+    if(isFull(ptr))
     {
-        printf("this queue is empty\n");
+        printf("Queue is full");
     }
     else
     {
-        q->f++;
-        a=q->arr[q->f];
+        ptr->r++;
+        ptr->arr[ptr->r] = value;
+
+    }
+}
+
+
+int dequeue(struct queue *ptr)
+{    int a=-1;
+
+    if(isEmpty(ptr))
+    {
+        printf("queue is empty");
+    }
+    else
+    {
+        ptr->f++;
+        a=ptr->arr[ptr->f];
+
     }
     return a;
 }
 
-void printQueue(struct queue *q)
+void printfQueue(struct queue *ptr)
 {
-    printf("Queue elements :\n");
-
-    for(int i = q->f+1 ; i <=q->r;i++)
-{
-    printf("%d ",q->arr[i]);
-
+    printf("Queue :\n");
+    for(int i =ptr->f+1 ; i<=ptr->r ;i++)
+    {
+      printf("%d\n",ptr->arr[i]);
+    }
 }
-printf("\n");
-}
+
 
 int main()
 {
-    struct queue q;
-    q.size=4;
-    q.f=q.r=0;
-    q.arr=(int *)malloc(q.size*sizeof(int));
+    struct queue *q=(struct queue*)malloc(sizeof(struct queue));
+    q->size=5;
+    q->f=q->r=0;
+    q->arr=(int *)malloc(q->size*sizeof(int));
 
-    enqueue(&q,10);
-    enqueue(&q,11);
-    enqueue(&q,12);
-    enqueue(&q,13);
 
-    printQueue(&q);
-    
-    printf("Dequeuing element %d\n",dequeue(&q));
 
-    printQueue(&q);
+    enqueue(q,10);
+    enqueue(q,11);
+    enqueue(q,12);
+    enqueue(q,13);
+    enqueue(q,14);
 
-  
+    dequeue(q);
+
+    printfQueue(q);
 
     return 0;
+
 }
